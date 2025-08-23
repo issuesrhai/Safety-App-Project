@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SlickWash — Car Wash Subscriptions</title>
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config: extend colors if needed
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['ui-sans-serif','system-ui','Segoe UI','Roboto','Helvetica','Arial','Noto Sans','Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'] }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons (CDN) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Background gradient */
+    .app-gradient{
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(56,189,248,0.35), transparent 60%),
+        radial-gradient(800px 500px at 90% 10%, rgba(147,51,234,0.25), transparent 60%),
+        linear-gradient(180deg,#020617,#0b1220);
+    }
+    .glass { background: rgba(255,255,255,0.06); }
+    .ring-1-white10 { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.10); }
+    .shadow-soft { box-shadow: 0 10px 40px -10px rgba(0,0,0,.35); }
+  </style>
+</head>
+<body class="min-h-screen text-white antialiased app-gradient">
+
+  <!-- NAV -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur bg-white/5">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
+      <a href="#home" class="group inline-flex items-center gap-2 font-semibold">
+        <span class="grid h-9 w-9 place-items-center rounded-xl bg-white text-slate-900">
+          <i data-lucide="car" class="w-5 h-5"></i>
+        </span>
+        <span class="group-hover:text-cyan-200">SlickWash</span>
+      </a>
+      <nav class="hidden md:flex gap-8 text-sm">
+        <a href="#features" class="hover:text-cyan-200">Features</a>
+        <a href="#pricing" class="hover:text-cyan-200">Pricing</a>
+        <a href="#testimonials" class="hover:text-cyan-200">Stories</a>
+        <a href="#faq" class="hover:text-cyan-200">FAQ</a>
+      </nav>
+      <button id="openSignupBtn" class="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 font-medium text-slate-900 shadow hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
+        <i data-lucide="credit-card" class="w-4 h-4"></i> Subscribe
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="home" class="relative overflow-hidden pt-16">
+    <div class="pointer-events-none absolute inset-0 -z-10 opacity-30 [mask-image:linear-gradient(to_bottom,black,transparent_80%)]">
+      <div class="absolute -left-24 top-20 h-64 w-64 rounded-full bg-cyan-400/30 blur-3xl"></div>
+      <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl"></div>
+    </div>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid items-center gap-10 lg:min-h-[70vh] lg:grid-cols-2">
+      <div>
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide backdrop-blur ring-1 ring-inset ring-white/20">
+          <i data-lucide="sparkles" class="h-3.5 w-3.5"></i> Monthly car-wash memberships
+        </span>
+        <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">Shine on, every month.</h1>
+        <p class="mt-4 max-w-xl text-white/80">
+          Join SlickWash and keep your car spotless with flexible monthly plans, mobile booking, and a 5-minute priority lane. Cancel anytime.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <button id="getStartedBtn" class="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-5 py-3 font-semibold text-slate-900 shadow-lg ring-1 ring-inset ring-white/10 hover:bg-cyan-300">
+            Get Started <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+          <a href="#pricing" class="inline-flex items-center gap-2 rounded-2xl bg-white/5 px-5 py-3 font-semibold ring-1 ring-inset ring-white/15 hover:bg-white/10">
+            See Plans
+          </a>
+        </div>
+        <dl class="mt-8 grid max-w-md grid-cols-3 gap-6 text-sm">
+          <div>
+            <dt class="text-white/60">Average time</dt>
+            <dd class="font-semibold">5–12 min</dd>
+          </div>
+          <div>
+            <dt class="text-white/60">Locations</dt>
+            <dd class="font-semibold">3 (expanding)</dd>
+          </div>
+          <div>
+            <dt class="text-white/60">Satisfaction</dt>
+            <dd class="font-semibold">4.9/5</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -inset-0.5 -z-10 rounded-3xl bg-gradient-to-tr from-cyan-400/40 to-fuchsia-400/40 blur-2xl"></div>
+        <div class="rounded-3xl glass p-2 ring-1-white10 shadow-soft">
+          <img
+            src="https://images.unsplash.com/photo-1606676861181-c1ab1bd9a2c1?q=80&w=1600&auto=format&fit=crop"
+            alt="Car getting a premium wash"
+            class="h-[380px] w-full rounded-2xl object-cover sm:h-[440px]"
+            loading="lazy" />
+          <div class="mx-2 -mt-10 rounded-xl bg-slate-900/80 p-4 backdrop-blur ring-1-white10">
+            <div class="flex items-center gap-3 text-sm">
+              <i data-lucide="smartphone" class="h-4 w-4"></i> Book in-app, scan-on-arrival, done.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Premium clean, zero hassle</h2>
+        <p class="mt-3 text-white/80">Subscriptions that make car care effortless—set it and shine.</p>
+      </div>
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+          <div class="flex items-start gap-4">
+            <div class="flex h-12 w-12 flex-none items-center justify-center rounded-xl bg-white/10 ring-1-white10">
+              <i data-lucide="clock-4" class="h-6 w-6"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold tracking-tight">Priority lane</h3>
+              <p class="mt-1 text-sm text-white/80">Skip the queue with members-only fast lanes at all locations.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+          <div class="flex items-start gap-4">
+            <div class="flex h-12 w-12 flex-none items-center justify-center rounded-xl bg-white/10 ring-1-white10">
+              <i data-lucide="shield-check" class="h-6 w-6"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold tracking-tight">Paint-safe chemistry</h3>
+              <p class="mt-1 text-sm text-white/80">pH-balanced products, touchless options, and ceramic-friendly cycles.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+          <div class="flex items-start gap-4">
+            <div class="flex h-12 w-12 flex-none items-center justify-center rounded-xl bg-white/10 ring-1-white10">
+              <i data-lucide="droplets" class="h-6 w-6"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold tracking-tight">Smart water use</h3>
+              <p class="mt-1 text-sm text-white/80">Closed-loop filtration saves up to 70% vs. driveway washes.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+          <div class="flex items-start gap-4">
+            <div class="flex h-12 w-12 flex-none items-center justify-center rounded-xl bg-white/10 ring-1-white10">
+              <i data-lucide="spray-can" class="h-6 w-6"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold tracking-tight">Detail like a pro</h3>
+              <p class="mt-1 text-sm text-white/80">Pro-grade wax, interior care, and microfiber only—no swirl marks.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="pb-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Choose your shine</h2>
+        <p class="mt-3 text-white/80">Simple monthly plans. No contracts. <span id="proPerWashHint"></span></p>
+      </div>
+
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        <!-- Basic -->
+        <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="mt-1 text-xl font-semibold">Basic</h3>
+              <p class="mt-1 text-sm text-white/70">Quick shine for busy weeks</p>
+            </div>
+            <div class="rounded-xl bg-white/10 p-3 ring-1-white10">
+              <i data-lucide="droplets" class="h-6 w-6"></i>
+            </div>
+          </div>
+          <div class="mt-6">
+            <div class="flex items-end gap-1">
+              <span class="text-4xl font-bold">R<span id="priceBasic">199</span></span>
+              <span class="pb-2 text-sm text-white/60">/mo</span>
+            </div>
+            <ul class="mt-6 space-y-3 text-sm">
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> 2 washes / month</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Exterior touchless</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Tire shine</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> SMS reminders</li>
+            </ul>
+            <button data-plan="Basic" class="selectPlan mt-6 w-full rounded-xl px-4 py-3 font-semibold bg-white/10 ring-1-white10 hover:bg-white/15">Start Basic</button>
+          </div>
+        </div>
+
+        <!-- Pro (featured) -->
+        <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft border-2 border-cyan-300/60 bg-white/10">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide backdrop-blur ring-1 ring-inset ring-white/20">
+                <i data-lucide="sparkles" class="h-3.5 w-3.5"></i> Most popular
+              </span>
+              <h3 class="mt-3 text-xl font-semibold">Pro</h3>
+              <p class="mt-1 text-sm text-white/70">Our most popular clean</p>
+            </div>
+            <div class="rounded-xl bg-white/10 p-3 ring-1-white10">
+              <i data-lucide="spray-can" class="h-6 w-6"></i>
+            </div>
+          </div>
+          <div class="mt-6">
+            <div class="flex items-end gap-1">
+              <span class="text-4xl font-bold">R<span id="pricePro">349</span></span>
+              <span class="pb-2 text-sm text-white/60">/mo</span>
+            </div>
+            <ul class="mt-6 space-y-3 text-sm">
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> 4 washes / month</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Interior vacuum</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Wax & spot-free rinse</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Priority lane access</li>
+            </ul>
+            <button data-plan="Pro" class="selectPlan mt-6 w-full rounded-xl px-4 py-3 font-semibold bg-cyan-400 text-slate-900">Go Pro</button>
+          </div>
+        </div>
+
+        <!-- Elite -->
+        <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="mt-1 text-xl font-semibold">Elite</h3>
+              <p class="mt-1 text-sm text-white/70">Showroom-level detailing</p>
+            </div>
+            <div class="rounded-xl bg-white/10 p-3 ring-1-white10">
+              <i data-lucide="shield-check" class="h-6 w-6"></i>
+            </div>
+          </div>
+          <div class="mt-6">
+            <div class="flex items-end gap-1">
+              <span class="text-4xl font-bold">R<span id="priceElite">549</span></span>
+              <span class="pb-2 text-sm text-white/60">/mo</span>
+            </div>
+            <ul class="mt-6 space-y-3 text-sm">
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Unlimited exterior</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Monthly interior detail</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Ceramic sealant add-on</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Family add-on pricing</li>
+            </ul>
+            <button data-plan="Elite" class="selectPlan mt-6 w-full rounded-xl px-4 py-3 font-semibold bg-white/10 ring-1-white10 hover:bg-white/15">Join Elite</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-6 text-center text-xs text-white/70">Family add-on: add a second vehicle for R149/mo on Pro or Elite.</p>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Members who love the glow</h2>
+        <p class="mt-3 text-white/80">Real feedback from our community.</p>
+      </div>
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Card -->
+        <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+          <div class="flex items-center gap-3">
+            <div class="grid h-10 w-10 place-items-center rounded-full bg-white/10">
+              <i data-lucide="star" class="h-5 w-5"></i>
+            </div>
+            <div>
+              <p class="font-semibold">Zanele M.</p>
+              <div class="flex">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+            </div>
+          </div>
+          <p class="mt-4 text-white/80">“Priority lane is a game-changer. In and out before school drop-off.”</p>
+        </div>
+
+        <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+          <div class="flex items-center gap-3">
+            <div class="grid h-10 w-10 place-items-center rounded-full bg-white/10">
+              <i data-lucide="star" class="h-5 w-5"></i>
+            </div>
+            <div>
+              <p class="font-semibold">Grant P.</p>
+              <div class="flex">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+            </div>
+          </div>
+          <p class="mt-4 text-white/80">“My ceramic coat still beads after every Elite wash. Worth it.”</p>
+        </div>
+
+        <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+          <div class="flex items-center gap-3">
+            <div class="grid h-10 w-10 place-items-center rounded-full bg-white/10">
+              <i data-lucide="star" class="h-5 w-5"></i>
+            </div>
+            <div>
+              <p class="font-semibold">Naledi K.</p>
+              <div class="flex">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+            </div>
+          </div>
+          <p class="mt-4 text-white/80">“The app reminders keep me consistent—car always looks fresh.”</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="pb-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="group relative overflow-hidden rounded-2xl ring-1-white10">
+          <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1600&auto=format&fit=crop" alt="SlickWash in action" class="h-64 w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 to-transparent"></div>
+        </div>
+        <div class="group relative overflow-hidden rounded-2xl ring-1-white10">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop" alt="SlickWash in action" class="h-64 w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 to-transparent"></div>
+        </div>
+        <div class="group relative overflow-hidden rounded-2xl ring-1-white10">
+          <img src="https://images.unsplash.com/photo-1565043589221-1a6fd9ae45b6?q=80&w=1600&auto=format&fit=crop" alt="SlickWash in action" class="h-64 w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 to-transparent"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="pb-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">FAQ</h2>
+        <div class="mt-8 grid gap-4">
+          <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+            <p class="font-semibold">How do monthly subscriptions work?</p>
+            <p class="mt-2 text-white/80">Pick a plan, add your vehicle(s), and use our app to book or drive up. Your plate or QR code unlocks member lanes. Cancel anytime in one tap.</p>
+          </div>
+          <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+            <p class="font-semibold">Can I share a plan across cars?</p>
+            <p class="mt-2 text-white/80">Pro and Elite include family add-ons so you can attach another vehicle at a discount.</p>
+          </div>
+          <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+            <p class="font-semibold">What if I don’t use all my washes?</p>
+            <p class="mt-2 text-white/80">Unused Basic/Pro washes roll over for 30 days. Elite is unlimited exterior with a fair-use policy.</p>
+          </div>
+          <div class="rounded-2xl glass p-6 ring-1-white10 shadow-soft">
+            <p class="font-semibold">Are you environmentally friendly?</p>
+            <p class="mt-2 text-white/80">Yes—closed-loop water recycling, biodegradable soaps, and local water restrictions respected at every site.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 py-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid items-center gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="space-y-2">
+        <a href="#home" class="inline-flex items-center gap-2 font-semibold">
+          <span class="grid h-9 w-9 place-items-center rounded-xl bg-white text-slate-900">
+            <i data-lucide="car" class="h-5 w-5"></i>
+          </span>
+          <span>SlickWash</span>
+        </a>
+        <p class="text-sm text-white/70">© <span id="year"></span> SlickWash, Pty Ltd. All rights reserved.</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#" aria-label="Instagram" class="rounded-xl bg-white/5 p-2 ring-1-white10 hover:bg-white/10"><i data-lucide="instagram" class="h-5 w-5"></i></a>
+        <a href="#" aria-label="Facebook" class="rounded-xl bg-white/5 p-2 ring-1-white10 hover:bg-white/10"><i data-lucide="facebook" class="h-5 w-5"></i></a>
+        <a href="#" aria-label="Twitter" class="rounded-xl bg-white/5 p-2 ring-1-white10 hover:bg-white/10"><i data-lucide="twitter" class="h-5 w-5"></i></a>
+      </div>
+      <div class="justify-self-start lg:justify-self-end">
+        <button id="openSignupBtnFooter" class="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-4 py-2 font-semibold text-slate-900 shadow">
+          <i data-lucide="mail" class="h-4 w-4"></i> Join now
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SIGNUP MODAL -->
+  <div id="signupModal" class="fixed inset-0 z-50 hidden grid place-items-center bg-black/60 p-4">
+    <div class="w-full max-w-lg rounded-2xl bg-slate-900 p-6 ring-1-white10">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h3 class="text-xl font-bold">Start your membership</h3>
+          <p class="mt-1 text-white/70">Pick a plan and we’ll send a magic link to complete signup.</p>
+        </div>
+        <button id="closeSignupBtn" class="rounded-xl bg-white/5 px-3 py-2 text-sm ring-1-white10 hover:bg-white/10">Close</button>
+      </div>
+
+      <form id="signupForm" class="mt-6 space-y-4">
+        <div class="grid gap-3 sm:grid-cols-2">
+          <label class="text-sm">
+            <span class="block text-white/80">Full name</span>
+            <input required class="mt-1 w-full rounded-xl border-0 bg-white/10 px-3 py-2 text-white ring-1 ring-inset ring-white/15 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-cyan-300" placeholder="e.g., Clesio M.">
+          </label>
+          <label class="text-sm">
+            <span class="block text-white/80">Email address</span>
+            <input type="email" required class="mt-1 w-full rounded-xl border-0 bg-white/10 px-3 py-2 text-white ring-1 ring-inset ring-white/15 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-cyan-300" placeholder="you@example.com">
+          </label>
+        </div>
+
+        <label class="text-sm block">
+          <span class="block text-white/80">Plan</span>
+          <select id="planSelect" class="mt-1 w-full rounded-xl border-0 bg-white/10 px-3 py-2 text-white ring-1 ring-inset ring-white/15 focus:outline-none focus:ring-2 focus:ring-cyan-300">
+            <option>Basic — R199/mo</option>
+            <option selected>Pro — R349/mo</option>
+            <option>Elite — R549/mo</option>
+          </select>
+        </label>
+
+        <label class="text-sm block">
+          <span class="block text-white/80">Vehicle plate</span>
+          <input required class="mt-1 w-full rounded-xl border-0 bg-white/10 px-3 py-2 text-white uppercase ring-1 ring-inset ring-white/15 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-cyan-300" placeholder="ABC 123 GP">
+        </label>
+
+        <button type="submit" class="mt-2 w-full rounded-xl bg-cyan-400 px-4 py-3 font-semibold text-slate-900 shadow">Send me a magic link</button>
+        <p class="text-center text-xs text-white/60">By continuing you agree to our Terms and Privacy Policy.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- App Scripts -->
+  <script>
+    // Activate icons
+    lucide.createIcons();
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Pro per-wash hint
+    (function(){
+      var pricePro = 349; // keep in sync with markup
+      var perWash = Math.round((pricePro / 4) * 100) / 100;
+      var el = document.getElementById('proPerWashHint');
+      if(el) el.textContent = 'Pro averages ~R' + perWash + ' per wash.';
+    })();
+
+    // Modal logic
+    const modal = document.getElementById('signupModal');
+    const openBtns = [document.getElementById('openSignupBtn'), document.getElementById('openSignupBtnFooter'), document.getElementById('getStartedBtn')];
+    const closeBtn = document.getElementById('closeSignupBtn');
+    const planSelect = document.getElementById('planSelect');
+
+    openBtns.forEach(btn => btn && btn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+    }));
+    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+    modal.addEventListener('click', (e) => {
+      if(e.target === modal) modal.classList.add('hidden');
+    });
+
+    // Select plan from pricing cards
+    document.querySelectorAll('.selectPlan').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const plan = btn.getAttribute('data-plan');
+        const mapping = { Basic: 0, Pro: 1, Elite: 2 };
+        planSelect.selectedIndex = mapping[plan] ?? 1;
+        modal.classList.remove('hidden');
+      });
+    });
+
+    // Fake submit (demo)
+    document.getElementById('signupForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const plan = planSelect.options[planSelect.selectedIndex].text.split(' — ')[0];
+      alert("Thanks! We'll email you shortly about the " + plan + " plan.");
+      modal.classList.add('hidden');
+      this.reset();
+    });
+
+    // Keyboard accessibility: close on Escape
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && !modal.classList.contains('hidden')) modal.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
